@@ -53,7 +53,13 @@ public abstract class AbstractController {
         String nonce = Base64.getEncoder().encodeToString(new RandomGuidGenerator().generate().getBytes(StandardCharsets.UTF_8));
         model.addAttribute(SCRIPT_NONCE_ATTRIBUTE, nonce);
 
-        response.addHeader(CONTENT_SECURITY_POLICY_HEADER, String.format("script-src 'self' 'nonce-%s'; worker-src blob:", nonce));
+        String policy = String.format("script-src 'self' 'nonce-%s'; worker-src 'self' blob:", nonce);
+        if (Configuration.getInstance().getProfile() == Profile.Local && Boolean.getBoolean("structurizr.launcher.offline")) {
+            policy += "; default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; " +
+                    "font-src 'self' data:; connect-src 'self'; frame-src 'self' blob:; " +
+                    "object-src 'none'; form-action 'self'; base-uri 'self'";
+        }
+        response.addHeader(CONTENT_SECURITY_POLICY_HEADER, policy);
     }
 
     protected void addCommonAttributes(ModelMap model, boolean showHeaderAndFooter) {

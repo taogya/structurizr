@@ -109,6 +109,13 @@ abstract class LocalFileSystemWorkspaceAdapter extends AbstractFileSystemWorkspa
         Workspace workspace;
 
         StructurizrDslParser parser = new StructurizrDslParser();
+        if (Boolean.getBoolean("structurizr.launcher.offline")) {
+            parser.getFeatures().disable(com.structurizr.dsl.Features.HTTP);
+            parser.getFeatures().disable(com.structurizr.dsl.Features.HTTPS);
+            parser.getFeatures().disable(com.structurizr.dsl.Features.SCRIPTS);
+            parser.getFeatures().disable(com.structurizr.dsl.Features.PLUGINS);
+            parser.getFeatures().disable(com.structurizr.dsl.Features.COMPONENT_FINDER);
+        }
         Configuration.getInstance().configure(parser.getHttpClient());
         parser.parse(dslFile);
         workspace = parser.getWorkspace();

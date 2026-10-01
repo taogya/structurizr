@@ -7,8 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class HomePageController {
 
     @RequestMapping("/")
+    @org.springframework.web.bind.annotation.ResponseBody
     public String homePage() {
-        return "redirect:https://docs.structurizr.com/ai/mcp";
+        return "Structurizr MCP - POST /mcp";
     }
 
 }

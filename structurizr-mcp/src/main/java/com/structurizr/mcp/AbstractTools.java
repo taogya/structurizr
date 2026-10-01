@@ -7,6 +7,8 @@ abstract class AbstractTools {
     protected final StructurizrDslParser createStructurizrDslParser() {
         StructurizrDslParser parser = new StructurizrDslParser();
 
+        parser.getFeatures().configure(com.structurizr.dsl.Features.HTTP, false);
+        parser.getFeatures().configure(com.structurizr.dsl.Features.HTTPS, false);
         parser.getFeatures().configure(com.structurizr.dsl.Features.ENVIRONMENT, false);
         parser.getFeatures().configure(com.structurizr.dsl.Features.FILE_SYSTEM, false);
         parser.getFeatures().configure(com.structurizr.dsl.Features.PLUGINS, false);
